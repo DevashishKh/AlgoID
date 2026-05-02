@@ -195,11 +195,11 @@ with tab_identify:
          try:
              from modules.image_classifier import predict_from_image
              image_preds = predict_from_image(pil_image, top_n=3)
-                except Exception as e:
-                    st.warning(f"Image classifier unavailable: {e}")
-             image_preds = []
+         except Exception as e:
+          st.warning(f"Image classifier unavailable: {e}")
+          image_preds = []
 
-            st.markdown("**CNN predictions:**")
+     st.markdown("**CNN predictions:**")
             for p in image_preds:
                 pct = p["confidence"] * 100
                 st.markdown(
