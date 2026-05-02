@@ -478,15 +478,6 @@ with tab_about:
 Anabaena · Chlorella · Chlamydomonas · Diatom Navicula · Euglena · Microcystis ·
 Nostoc · Oscillatoria · Pediastrum · Spirogyra · Volvox · Zygnema
 
-### How to extend
-1. **Add genera** — edit `data/morphology_rules.json` and add a row to `database_setup.py`
-2. **Train CNN** — collect images into `data/algae_dataset/<ClassName>/`, then run:
-   ```
-   python -c "from modules.image_classifier import train_model; train_model()"
-   ```
-3. **Add datasets** — Kaggle algae microscopy datasets, AlgaeBase image galleries,
-   or lab-collected images all work with the ImageFolder layout.
-
 ### References
 - AlgaeBase: algaebase.org
 - GBIF API: api.gbif.org/v1
