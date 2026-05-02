@@ -178,6 +178,17 @@ with tab_identify:
         if uploaded:
             pil_image = Image.open(uploaded)
             st.image(pil_image, caption="Uploaded image", use_container_width=True)
+            from modules.image_validator import is_microscopic
+            
+            # Save temporary file for validation
+            temp_path = "temp_validation_img.jpg"
+            pil_image.convert("RGB").save(temp_path)
+            
+            is_valid, msg = is_microscopic(temp_path)
+            
+            if not is_valid:
+                st.error(f"⚠️ **Microscopy Check Failed:** {msg}")
+                st.stop()  # This prevents the rest of the code from running
 
             with st.spinner("Running CNN classifier…"):
                 try:
