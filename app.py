@@ -8,6 +8,7 @@ import json
 import streamlit as st
 from pathlib import Path
 from PIL import Image
+from microscope_check import is_microscopic
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -178,10 +179,21 @@ with tab_identify:
         if uploaded:
             pil_image = Image.open(uploaded)
             st.image(pil_image, caption="Uploaded image", use_container_width=True)
+            # Save a temp file because your function needs a path for cv2.imread
+    temp_path = "temp_validation_img.jpg"
+    pil_image.save(temp_path)
+    
+    is_valid, msg = is_microscopic(temp_path)
+    
+    if not is_valid:
+        st.error(f"⚠️ **Microscopy Check Failed:** {msg}")
+        st.stop()  # This prevents the rest of the code from running
+    # --- NEW CHECKER CODE ENDS HERE ---
 
-            with st.spinner("Running CNN classifier…"):
-                try:
-                    from modules.image_classifier import predict_from_image
+    # --- YOUR CODE CONTINUES (Line 182) ---
+    with st.spinner("Running CNN classifier..."):
+         try:
+             from modules.image_classifier import predict_from_image
                     image_preds = predict_from_image(pil_image, top_n=3)
                 except Exception as e:
                     st.warning(f"Image classifier unavailable: {e}")
