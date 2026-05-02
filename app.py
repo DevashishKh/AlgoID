@@ -194,10 +194,10 @@ with tab_identify:
     with st.spinner("Running CNN classifier..."):
          try:
              from modules.image_classifier import predict_from_image
-                    image_preds = predict_from_image(pil_image, top_n=3)
+             image_preds = predict_from_image(pil_image, top_n=3)
                 except Exception as e:
                     st.warning(f"Image classifier unavailable: {e}")
-                    image_preds = []
+             image_preds = []
 
             st.markdown("**CNN predictions:**")
             for p in image_preds:
