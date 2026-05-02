@@ -1,0 +1,122 @@
+{
+  "Chlorella": {
+    "shape": ["unicellular"],
+    "pigmentation": ["green"],
+    "motility": false,
+    "special_structures": [],
+    "habitat": "Freshwater, ubiquitous in ponds and lakes",
+    "biochemical": "High protein content; used in biofuel and nutrition",
+    "division": "Chlorophyta",
+    "score_weight": 1.0
+  },
+  "Anabaena": {
+    "shape": ["filamentous"],
+    "pigmentation": ["blue-green"],
+    "motility": false,
+    "special_structures": ["heterocyst", "akinetes"],
+    "habitat": "Freshwater, nitrogen-fixing; often in rice paddies",
+    "biochemical": "Nitrogen fixation; produces toxins (anatoxin-a)",
+    "division": "Cyanobacteria",
+    "score_weight": 1.2
+  },
+  "Euglena": {
+    "shape": ["unicellular"],
+    "pigmentation": ["green"],
+    "motility": true,
+    "special_structures": ["flagella"],
+    "habitat": "Stagnant freshwater, nutrient-rich ponds",
+    "biochemical": "Paramylon storage; high vitamin B12 potential",
+    "division": "Euglenophyta",
+    "score_weight": 1.0
+  },
+  "Spirogyra": {
+    "shape": ["filamentous"],
+    "pigmentation": ["green"],
+    "motility": false,
+    "special_structures": ["spiral_chloroplast"],
+    "habitat": "Slow-moving freshwater streams, ditches",
+    "biochemical": "Cellulosic cell wall; potential for biomass",
+    "division": "Chlorophyta",
+    "score_weight": 1.0
+  },
+  "Volvox": {
+    "shape": ["colonial"],
+    "pigmentation": ["green"],
+    "motility": true,
+    "special_structures": ["flagella"],
+    "habitat": "Freshwater ponds and lakes, eutrophic water",
+    "biochemical": "Multicellular model organism; rich in beta-carotene",
+    "division": "Chlorophyta",
+    "score_weight": 1.0
+  },
+  "Oscillatoria": {
+    "shape": ["filamentous"],
+    "pigmentation": ["blue-green"],
+    "motility": true,
+    "special_structures": [],
+    "habitat": "Stagnant freshwater; common in polluted water",
+    "biochemical": "Produces microcystin; indicator of eutrophication",
+    "division": "Cyanobacteria",
+    "score_weight": 1.1
+  },
+  "Chlamydomonas": {
+    "shape": ["unicellular"],
+    "pigmentation": ["green"],
+    "motility": true,
+    "special_structures": ["flagella"],
+    "habitat": "Freshwater ponds, soil, and snow",
+    "biochemical": "Model for photosynthesis research; hydrogen production",
+    "division": "Chlorophyta",
+    "score_weight": 1.0
+  },
+  "Diatom_Navicula": {
+    "shape": ["unicellular"],
+    "pigmentation": ["brown"],
+    "motility": true,
+    "special_structures": [],
+    "habitat": "Freshwater and marine; benthic and planktonic",
+    "biochemical": "Silica frustule; high EPA omega-3 fatty acids",
+    "division": "Bacillariophyta",
+    "score_weight": 1.0
+  },
+  "Microcystis": {
+    "shape": ["colonial"],
+    "pigmentation": ["blue-green"],
+    "motility": false,
+    "special_structures": ["gas_vesicles"],
+    "habitat": "Warm eutrophic lakes; bloom-forming",
+    "biochemical": "Produces microcystin-LR; highly toxic cyanotoxin",
+    "division": "Cyanobacteria",
+    "score_weight": 1.2
+  },
+  "Pediastrum": {
+    "shape": ["colonial"],
+    "pigmentation": ["green"],
+    "motility": false,
+    "special_structures": [],
+    "habitat": "Planktonic in freshwater lakes and ponds",
+    "biochemical": "Cellulosic; used as bioindicator of water quality",
+    "division": "Chlorophyta",
+    "score_weight": 1.0
+  },
+  "Zygnema": {
+    "shape": ["filamentous"],
+    "pigmentation": ["green"],
+    "motility": false,
+    "special_structures": ["spiral_chloroplast", "akinetes"],
+    "habitat": "Clean, slow-moving freshwater streams",
+    "biochemical": "Desiccation tolerance; extremophyte research",
+    "division": "Streptophyta",
+    "score_weight": 1.0
+  },
+  "Nostoc": {
+    "shape": ["colonial"],
+    "pigmentation": ["blue-green"],
+    "motility": false,
+    "special_structures": ["heterocyst", "akinetes"],
+    "habitat": "Freshwater, soil, symbiotic with plants",
+    "biochemical": "Nitrogen fixation; produces nostocyclopeptides",
+    "division": "Cyanobacteria",
+    "score_weight": 1.1
+  }
+}
