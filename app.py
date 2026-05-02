@@ -146,6 +146,29 @@ with st.sidebar:
     st.caption(f"Image weight: **{image_weight}**")
 
     st.divider()
+    st.markdown("### 🔍 Image Validation")
+    validate_images = st.toggle(
+        "Reject non-microscopy images",
+        value=True,
+        help="When ON, uploaded images are checked to ensure they look like microscopy photos. "
+             "Turn OFF only if you trust the source and want to bypass the check."
+    )
+    strict_mode = st.toggle(
+        "Strict validation mode",
+        value=False,
+        help="Applies tighter thresholds — useful when dataset quality is critical. "
+             "May reject low-quality or fluorescence microscopy images."
+    )
+    if validate_images:
+        st.caption(
+            "🛡️ **Active** — outdoor photos, selfies, and smartphone images will be rejected."
+            if not strict_mode else
+            "🛡️ **Strict** — only high-confidence microscopy images accepted."
+        )
+    else:
+        st.caption("⚠️ Validation **disabled** — any image will be accepted.")
+
+    st.divider()
     run_btn = st.button("🔍 Identify Organism", use_container_width=True)
 
 morph_input = {
@@ -177,36 +200,55 @@ with tab_identify:
 
         if uploaded:
             pil_image = Image.open(uploaded)
-            st.image(pil_image, caption="Uploaded image", use_container_width=True)
-            from modules.image_validator import is_microscopic
-            
-            # Save temporary file for validation
-            temp_path = "temp_validation_img.jpg"
-            pil_image.convert("RGB").save(temp_path)
-            
-            is_valid, msg = is_microscopic(temp_path)
-            
-            if not is_valid:
-                st.error(f"⚠️ **Microscopy Check Failed:** {msg}")
-                st.stop()  # This prevents the rest of the code from running
 
-            with st.spinner("Running CNN classifier…"):
-                try:
-                    from modules.image_classifier import predict_from_image
-                    image_preds = predict_from_image(pil_image, top_n=3)
-                except Exception as e:
-                    st.warning(f"Image classifier unavailable: {e}")
-                    image_preds = []
-
-            st.markdown("**CNN predictions:**")
-            for p in image_preds:
-                pct = p["confidence"] * 100
-                st.markdown(
-                    f"**{p['species']}** — {pct:.1f}%<br>"
-                    f'<div class="confidence-bar"><div class="confidence-fill" '
-                    f'style="width:{pct:.0f}%"></div></div>',
-                    unsafe_allow_html=True,
+            # ── Microscopy validation ─────────────────────────────────────
+            validation_passed = True
+            if validate_images:
+                from modules.image_validator import (
+                    validate_microscopy_image, validation_summary_html
                 )
+                with st.spinner("Validating image…"):
+                    val_result = validate_microscopy_image(pil_image, strict=strict_mode)
+
+                st.markdown(validation_summary_html(val_result), unsafe_allow_html=True)
+
+                if not val_result["is_valid"]:
+                    validation_passed = False
+                    st.error(
+                        "**Upload rejected.** This does not appear to be a microscopy image.  \n"
+                        "Please upload a photo taken through a light microscope. "
+                        "You can still use morphology-only identification →"
+                    )
+                    with st.expander("🔎 Validation details"):
+                        for check, detail in val_result["checks"].items():
+                            icon = "✅" if detail["ok"] else "❌"
+                            st.markdown(
+                                f"{icon} **{check.replace('_',' ').title()}** — "
+                                f"`{detail['value']}`"
+                            )
+                    pil_image = None   # block downstream processing
+
+            if validation_passed and pil_image is not None:
+                st.image(pil_image, caption="Accepted microscopy image ✅",
+                         use_container_width=True)
+
+                with st.spinner("Running CNN classifier…"):
+                    try:
+                        from modules.image_classifier import predict_from_image
+                        image_preds = predict_from_image(pil_image, top_n=3)
+                    except Exception as e:
+                        st.warning(f"Image classifier unavailable: {e}")
+                        image_preds = []
+
+                st.markdown("**CNN predictions:**")
+                for p in image_preds:
+                    pct = p["confidence"] * 100
+                    st.markdown(
+                        f"**{p['species']}** — {pct:.1f}%<br>"
+                        f'<div class="confidence-bar"><div class="confidence-fill" '
+                        f'style="width:{pct:.0f}%"></div></div>',
+                        unsafe_allow_html=True,
+                    )
         else:
             st.info("Upload a microscope image for AI-based classification.\n\n"
                     "Morphology-only identification is still available →")
